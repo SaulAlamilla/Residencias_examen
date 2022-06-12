@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#086A87"
+    android:orientation="vertical"
+    tools:context=".fragments.Status">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:alpha="1"
+        app:cardBackgroundColor="#FFFFFF"
+        app:cardCornerRadius="30dp">
+        <!-- TODO: Update blank fragment layout -->
+        <TextView
+            android:id="@+id/tv_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="30dp"
+            android:fontFamily="sans-serif"
+            android:text="@string/hello_blank_fragment"
+            android:textColor="#434343"
+            android:textSize="20sp" />
+    </androidx.cardview.widget.CardView>
+
+</FrameLayout>
