@@ -7,14 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.RecyclerView
 import com.example.residencia.R
 import com.example.residencia.alumno_proyecto_estado.ProjectStatus
 import com.example.residencia.alumnos.Alumno
 import com.example.residencia.database.baseDeDatos
-import com.example.residencia.proyectos.ProjectAdapter
-import com.example.residencia.proyectos.Proyecto
 import kotlinx.coroutines.launch
 import org.w3c.dom.Text
 
@@ -30,13 +28,13 @@ private const val ARG_PARAM2 = "param2"
  */
 class ProjectDetail : Fragment() {
     // TODO: Rename and change types of parameters
-    private var param1: Alumno? = null
+    private var alumno: Alumno? = null
     private var id_proyecto_seleccionado: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getSerializable(ARG_PARAM1) as Alumno
+            alumno = it.getSerializable(ARG_PARAM1) as Alumno
             id_proyecto_seleccionado = it.getInt(ARG_PARAM2)
         }
     }
@@ -48,34 +46,39 @@ class ProjectDetail : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_project_detail, container, false)
 
-        //view.findViewById<TextView>(R.id.textViewPrueba).text = param1?.nombres + " " + id_proyecto_seleccionado
         val DATABASE_ by lazy { baseDeDatos.getDatabase(context).alumDao() }
         val DATABASE_status by lazy { baseDeDatos.getDatabase(context).statusDao() }
         val DATABASE_project by lazy { baseDeDatos.getDatabase(context).projectDao() }
 
 
-        val id = param1!!.id
-        val numero_de_control = param1!!.numero_de_control
-        val contrasena = param1!!.contrasena
-        val nombres = param1!!.nombres
-        val apellido_paterno = param1!!.apellido_paterno
-        val apellido_materno = param1!!.apellido_materno
-        val carrera = param1!!.carrera
+        val id = alumno!!.id
+        val numero_de_control = alumno!!.numero_de_control
+        val contrasena = alumno!!.contrasena
+        val nombres = alumno!!.nombres
+        val apellido_paterno = alumno!!.apellido_paterno
+        val apellido_materno = alumno!!.apellido_materno
+        val carrera = alumno!!.carrera
         val id_proyecto = id_proyecto_seleccionado!!
 
-        val vistaDetalle = view.findViewById<TextView>(R.id.textViewPrueba)
+        val vistaDetalleNombre = view.findViewById<TextView>(R.id.tv_nombre)
+        val vistaDetalleArea = view.findViewById<TextView>(R.id.tv_area)
+        val vistaDetalleEncargado = view.findViewById<TextView>(R.id.tv_encargado)
+        val vistaDetalleDescripcion = view.findViewById<TextView>(R.id.tv_descripcion)
         lifecycleScope.launch {
             val proyectoDetalle = DATABASE_project.getById(id_proyecto)
-            vistaDetalle.text = "Proyecto: " + proyectoDetalle.nombre
+            vistaDetalleNombre.text = "Proyecto: " + proyectoDetalle.nombre
+            vistaDetalleArea.text = "Área: " + proyectoDetalle.area
+            vistaDetalleEncargado.text = "Encargado: " + proyectoDetalle.encargado
+            vistaDetalleDescripcion.text = "Descripcion: " + proyectoDetalle.descripcion
         }
 
         val btnSolicitar = view.findViewById<Button>(R.id.btn_solicitar)
         btnSolicitar.setOnClickListener {
-            view.findViewById<TextView>(R.id.textViewPrueba).text = "SOLICITADO!"
+            view.findViewById<TextView>(R.id.tv_solicitud).isVisible = true
 
             lifecycleScope.launch {
                 DATABASE_.updateAlumno(Alumno(id, numero_de_control, contrasena, nombres,
-                apellido_paterno, apellido_materno, carrera, id_proyecto))
+                apellido_paterno, apellido_materno, carrera))
 
                 val estado_alumno = DATABASE_status.getStatusAlumno(id)
                 if (estado_alumno != null){
@@ -101,10 +104,10 @@ class ProjectDetail : Fragment() {
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: Alumno, id_proyecto_seleccionado: Int) =
+        fun newInstance(alumno: Alumno, id_proyecto_seleccionado: Int) =
             ProjectDetail().apply {
                 arguments = Bundle().apply {
-                    putSerializable(ARG_PARAM1, param1)
+                    putSerializable(ARG_PARAM1, alumno)
                     putInt(ARG_PARAM2, id_proyecto_seleccionado)
                 }
             }

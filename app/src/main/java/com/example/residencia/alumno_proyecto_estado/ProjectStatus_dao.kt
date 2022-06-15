@@ -2,6 +2,7 @@ package com.example.residencia.alumno_proyecto_estado
 
 import androidx.room.*
 import com.example.residencia.alumnos.Alumno
+import com.example.residencia.proyectos.Proyecto
 import com.example.residencia.relationships.ProjectAndStatus
 import com.example.residencia.relationships.StudentAndStatus
 
@@ -17,10 +18,6 @@ interface ProjectStatus_dao {
     @Query("SELECT * FROM alumnos WHERE id = :id_alumno")
     suspend fun getStudentAndStatus(id_alumno: Int): StudentAndStatus?
 
-    @Transaction
-    @Query("SELECT * FROM proyectos WHERE id = :id_proyecto")
-    suspend fun getProjectAndStatus(id_proyecto: Int): ProjectAndStatus?
-
     @Query("SELECT * FROM estado_proyectos WHERE id_estado = :id_alumno")
     suspend fun getById(id_alumno: Int): ProjectStatus?
 
@@ -28,4 +25,7 @@ interface ProjectStatus_dao {
     @Query("SELECT * FROM estado_proyectos WHERE id_alumno LIKE :id_alumno")
     suspend fun getStatusAlumno(id_alumno: Int) : ProjectStatus?
 
+    @Transaction
+    @Query("SELECT * FROM proyectos WHERE id = :id_proyecto")
+    suspend fun getProjectAndStatus(id_proyecto: Int): Proyecto?
 }

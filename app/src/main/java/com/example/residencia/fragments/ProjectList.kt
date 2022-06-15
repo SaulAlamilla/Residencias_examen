@@ -21,12 +21,12 @@ private const val ARG_PARAM1 = "param1"
 
 class ProjectList : Fragment() {
     // TODO: Rename and change types of parameters
-    private var param1: Alumno? = null
+    private var alumno: Alumno? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getSerializable(ARG_PARAM1) as Alumno
+            alumno = it.getSerializable(ARG_PARAM1) as Alumno
         }
     }
 
@@ -37,22 +37,23 @@ class ProjectList : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_project_list, container, false)
 
+        //Obtener todos los proyectos de la base de datos para guardarlos en una lista
         val DATABASE_ by lazy { baseDeDatos.getDatabase(context).projectDao() }
         lifecycleScope.launch {
             var listProjects: List<Proyecto> = DATABASE_.getProjects()
 
             val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerId)
-            recyclerView.adapter = ProjectAdapter(context, listProjects, param1!!)
+            recyclerView.adapter = ProjectAdapter(context, listProjects, alumno!!)
             recyclerView.setHasFixedSize(true)
         }
         return view
     }
 
     companion object {
-        fun newInstance(param1: Alumno) =
+        fun newInstance(alumno: Alumno) =
             ProjectList().apply {
                 arguments = Bundle().apply {
-                    putSerializable(ARG_PARAM1, param1)
+                    putSerializable(ARG_PARAM1, alumno)
                 }
             }
     }

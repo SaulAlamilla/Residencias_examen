@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "09b04c531dc12c4be6ba9db1f6c76924",
+    "identityHash": "03bdd8620fc32bf830fbb3912bc7865c",
     "entities": [
       {
         "tableName": "alumnos",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `numero_de_control` TEXT NOT NULL, `contrasena` TEXT NOT NULL, `nombres` TEXT NOT NULL, `apellido_paterno` TEXT NOT NULL, `apellido_materno` TEXT NOT NULL, `carrera` TEXT NOT NULL, `project_id` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `numero_de_control` TEXT NOT NULL, `contrasena` TEXT NOT NULL, `nombres` TEXT NOT NULL, `apellido_paterno` TEXT NOT NULL, `apellido_materno` TEXT NOT NULL, `carrera` TEXT NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -48,12 +48,6 @@
             "fieldPath": "carrera",
             "columnName": "carrera",
             "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "project_id",
-            "columnName": "project_id",
-            "affinity": "INTEGER",
             "notNull": true
           }
         ],
@@ -158,7 +152,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '09b04c531dc12c4be6ba9db1f6c76924')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '03bdd8620fc32bf830fbb3912bc7865c')"
     ]
   }
 }

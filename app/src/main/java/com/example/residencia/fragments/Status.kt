@@ -11,6 +11,8 @@ import com.example.residencia.R
 import com.example.residencia.alumno_proyecto_estado.ProjectStatus
 import com.example.residencia.alumnos.Alumno
 import com.example.residencia.database.baseDeDatos
+import com.example.residencia.proyectos.Proyecto
+import com.example.residencia.relationships.ProjectAndStatus
 import com.example.residencia.relationships.StudentAndStatus
 import kotlinx.coroutines.launch
 
@@ -27,11 +29,13 @@ private const val ARG_PARAM2 = "param2"
 class Status : Fragment() {
     // TODO: Rename and change types of parameters
     private var estudiante: Alumno? = null
+    private var proyecto: Proyecto? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             estudiante = it.getSerializable(ARG_PARAM1) as Alumno
+            proyecto = it.getSerializable(ARG_PARAM2) as Proyecto
         }
     }
 
@@ -41,26 +45,23 @@ class Status : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_status, container, false)
 
-        val DATABASE_ by lazy { baseDeDatos.getDatabase(context).statusDao() }
+        val DATABASE_status by lazy { baseDeDatos.getDatabase(context).statusDao() }
 
         lifecycleScope.launch {
-            val infoStatus = DATABASE_.getStudentAndStatus(estudiante!!.id)
-            //val infoProject = DATABASE_.getProjectAndStatus(infoStatus!!.student.project_id)
+            val infoStatus = DATABASE_status.getStudentAndStatus(estudiante!!.id)
 
-            val status_ = view.findViewById<TextView>(R.id.tv_status)
-            val nombre = infoStatus?.student?.nombres
-            val apellido_paterno = infoStatus?.student?.apellido_paterno
-            val proyecto = infoStatus?.status?.id_proyecto
+            val nombre = estudiante!!.nombres
+            val apellido_paterno = estudiante!!.apellido_paterno
+            val proyecto = proyecto!!.nombre
             val estado = infoStatus?.status?.estado
-            var estado_validado: String = ""
+            var estado_validado = ""
 
             if (estado == false) estado_validado = "Pendiente" else estado_validado = "Aceptado"
 
-            status_.text = nombre + " " + apellido_paterno +
+            val status_ = view.findViewById<TextView>(R.id.tv_status)
+            status_.setText(nombre + " " + apellido_paterno +
                     "\nProyecto: " + proyecto +
-                    "\nEstado: " + estado_validado
-
-            //status_.text = infoStatus.toString() + "..." + infoProject
+                    "\nEstado: " + estado_validado)
         }
         return view
     }
@@ -76,10 +77,11 @@ class Status : Fragment() {
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(estudiante: Alumno) =
+        fun newInstance(estudiante: Alumno, proyecto: Proyecto?) =
             Status().apply {
                 arguments = Bundle().apply {
                     putSerializable(ARG_PARAM1, estudiante)
+                    putSerializable(ARG_PARAM2, proyecto)
                 }
             }
     }

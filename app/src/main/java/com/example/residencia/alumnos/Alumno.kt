@@ -21,7 +21,5 @@ data class Alumno(
     @ColumnInfo(name = "apellido_materno")
     val apellido_materno: String,
     @ColumnInfo(name = "carrera")
-    val carrera: String,
-    @ColumnInfo(name = "project_id")
-    val project_id: Int
+    val carrera: String
 ): Serializable

@@ -7,9 +7,23 @@
     android:background="#086A87"
     tools:context=".fragments.ProjectDetail">
 
-    <androidx.cardview.widget.CardView
+    <TextView
+        android:id="@+id/tv_solicitud"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="90dp"
+        android:layout_marginRight="40dp"
+        android:gravity="center"
+        android:text="¡Solicitado!"
+        android:textColor="#FFFFFF"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        android:visibility="invisible" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
         android:alpha="1"
@@ -20,23 +34,50 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="30dp"
+            android:layout_margin="40dp"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textViewPrueba"
+                android:id="@+id/tv_nombre"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-condensed"
                 android:text="@string/hello_blank_fragment"
-                android:textSize="24sp"
-                android:layout_marginBottom="10dp" />
+                android:textSize="24sp" />
 
-            <Button
-                android:id="@+id/btn_solicitar"
+            <TextView
+                android:id="@+id/tv_area"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="SOLICITAR" />
+                android:fontFamily="sans-serif-condensed"
+                android:text="TextView"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/tv_encargado"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-condensed"
+                android:text="TextView"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/tv_descripcion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-condensed"
+                android:text="TextView"
+                android:textSize="24sp" />
+
         </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_solicitar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_margin="40dp"
+            android:text="SOLICITAR" />
     </androidx.cardview.widget.CardView>
 
 </FrameLayout>

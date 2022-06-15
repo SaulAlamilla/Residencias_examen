@@ -42,7 +42,7 @@ class SingUp : Fragment() {
                 val apellido_paterno: String = view.findViewById<EditText>(R.id.et_apellido_paterno).text.toString()
                 val apellido_materno: String = view.findViewById<EditText>(R.id.et_apellido_materno).text.toString()
                 val carrera: String = view.findViewById<EditText>(R.id.et_carrera).text.toString()
-                var alumno = Alumno(0,numero_de_control,contrasena,nombres,apellido_paterno,apellido_materno,carrera,0)
+                var alumno = Alumno(0,numero_de_control,contrasena,nombres,apellido_paterno,apellido_materno,carrera)
 
                 if (numero_de_control.isEmpty() || contrasena.isEmpty() || nombres.isEmpty() ||
                     nombres.isEmpty() || apellido_paterno.isEmpty() || apellido_materno.isEmpty() ||

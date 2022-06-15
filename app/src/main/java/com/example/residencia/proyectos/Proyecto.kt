@@ -3,6 +3,7 @@ package com.example.residencia.proyectos
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.io.Serializable
 
 @Entity(tableName = "proyectos")
 data class Proyecto(
@@ -19,4 +20,4 @@ data class Proyecto(
     val alumnosRequeridos: String,
     @ColumnInfo(name = "encargado")
     val encargado: String
-)
+): Serializable
