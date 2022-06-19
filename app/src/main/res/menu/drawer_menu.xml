@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:title="Inicio"
+            android:icon="@drawable/ic_home">
+        </item>
+        <item
+            android:id="@+id/nav_profile"
+            android:title="Perfil"
+            android:icon="@drawable/ic_profile">
+        </item>
+        <item
+            android:id="@+id/nav_projects"
+            android:title="Proyectos"
+            android:icon="@drawable/ic_project">
+        </item>
+
+    </group>
+    <item android:title="Más">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_status"
+                    android:title="Estado del proyecto"
+                    android:icon="@drawable/ic_status"/>
+
+                <item
+                    android:id="@+id/nav_conocenos"
+                    android:title="Conócenos"
+                    android:icon="@drawable/ic_info"/>
+
+                <item
+                    android:id="@+id/nav_LogOut"
+                    android:title="Salir"
+                    android:icon="@drawable/ic_logout"/>
+
+            </group>
+        </menu>
+    </item>
+
+</menu>

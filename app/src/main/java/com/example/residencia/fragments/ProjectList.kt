@@ -39,6 +39,7 @@ class ProjectList : Fragment() {
 
         //Obtener todos los proyectos de la base de datos para guardarlos en una lista
         val DATABASE_ by lazy { baseDeDatos.getDatabase(context).projectDao() }
+
         lifecycleScope.launch {
             var listProjects: List<Proyecto> = DATABASE_.getProjects()
 

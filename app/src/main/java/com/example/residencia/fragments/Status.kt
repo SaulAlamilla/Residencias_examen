@@ -8,26 +8,16 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
 import com.example.residencia.R
-import com.example.residencia.alumno_proyecto_estado.ProjectStatus
 import com.example.residencia.alumnos.Alumno
 import com.example.residencia.database.baseDeDatos
 import com.example.residencia.proyectos.Proyecto
-import com.example.residencia.relationships.ProjectAndStatus
-import com.example.residencia.relationships.StudentAndStatus
 import kotlinx.coroutines.launch
+import org.w3c.dom.Text
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [Status.newInstance] factory method to
- * create an instance of this fragment.
- */
 class Status : Fragment() {
-    // TODO: Rename and change types of parameters
     private var estudiante: Alumno? = null
     private var proyecto: Proyecto? = null
 
@@ -52,31 +42,28 @@ class Status : Fragment() {
 
             val nombre = estudiante!!.nombres
             val apellido_paterno = estudiante!!.apellido_paterno
-            val proyecto = proyecto!!.nombre
+            val proyectoName = proyecto!!.nombre
             val estado = infoStatus?.status?.estado
             var estado_validado = ""
 
             if (estado == false) estado_validado = "Pendiente" else estado_validado = "Aceptado"
 
-            val status_ = view.findViewById<TextView>(R.id.tv_status)
-            status_.setText(nombre + " " + apellido_paterno +
-                    "\nProyecto: " + proyecto +
-                    "\nEstado: " + estado_validado)
+            val nombre_ = view.findViewById<TextView>(R.id.tv_nombre_p)
+            val area_ = view.findViewById<TextView>(R.id.tv_area)
+            val descripcion = view.findViewById<TextView>(R.id.tv_descripcion)
+            val encargado = view.findViewById<TextView>(R.id.tv_encargado)
+            val status_ = view.findViewById<TextView>(R.id.tv_status_p)
+
+            nombre_.text = proyectoName
+            area_.text = proyecto!!.area
+            descripcion.text = proyecto!!.descripcion
+            encargado.text = proyecto!!.encargado
+            status_.text = estado_validado
         }
         return view
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment Status.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
         fun newInstance(estudiante: Alumno, proyecto: Proyecto?) =
             Status().apply {
                 arguments = Bundle().apply {

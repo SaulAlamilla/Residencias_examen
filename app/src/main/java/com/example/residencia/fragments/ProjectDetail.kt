@@ -7,8 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import com.example.residencia.MainActivity
 import com.example.residencia.R
 import com.example.residencia.alumno_proyecto_estado.ProjectStatus
 import com.example.residencia.alumnos.Alumno
@@ -16,18 +18,10 @@ import com.example.residencia.database.baseDeDatos
 import kotlinx.coroutines.launch
 import org.w3c.dom.Text
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [ProjectDetail.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ProjectDetail : Fragment() {
-    // TODO: Rename and change types of parameters
     private var alumno: Alumno? = null
     private var id_proyecto_seleccionado: Int? = null
 
@@ -46,18 +40,10 @@ class ProjectDetail : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_project_detail, container, false)
 
-        val DATABASE_ by lazy { baseDeDatos.getDatabase(context).alumDao() }
         val DATABASE_status by lazy { baseDeDatos.getDatabase(context).statusDao() }
         val DATABASE_project by lazy { baseDeDatos.getDatabase(context).projectDao() }
 
-
         val id = alumno!!.id
-        val numero_de_control = alumno!!.numero_de_control
-        val contrasena = alumno!!.contrasena
-        val nombres = alumno!!.nombres
-        val apellido_paterno = alumno!!.apellido_paterno
-        val apellido_materno = alumno!!.apellido_materno
-        val carrera = alumno!!.carrera
         val id_proyecto = id_proyecto_seleccionado!!
 
         val vistaDetalleNombre = view.findViewById<TextView>(R.id.tv_nombre)
@@ -66,19 +52,17 @@ class ProjectDetail : Fragment() {
         val vistaDetalleDescripcion = view.findViewById<TextView>(R.id.tv_descripcion)
         lifecycleScope.launch {
             val proyectoDetalle = DATABASE_project.getById(id_proyecto)
-            vistaDetalleNombre.text = "Proyecto: " + proyectoDetalle.nombre
-            vistaDetalleArea.text = "Área: " + proyectoDetalle.area
-            vistaDetalleEncargado.text = "Encargado: " + proyectoDetalle.encargado
-            vistaDetalleDescripcion.text = "Descripcion: " + proyectoDetalle.descripcion
+            vistaDetalleNombre.text = proyectoDetalle.nombre
+            vistaDetalleArea.text = proyectoDetalle.area
+            vistaDetalleEncargado.text = proyectoDetalle.encargado
+            vistaDetalleDescripcion.text = proyectoDetalle.descripcion
         }
 
         val btnSolicitar = view.findViewById<Button>(R.id.btn_solicitar)
         btnSolicitar.setOnClickListener {
-            view.findViewById<TextView>(R.id.tv_solicitud).isVisible = true
+            Toast.makeText(getActivity(),"¡Proyeto solicitado!", Toast.LENGTH_SHORT).show()
 
             lifecycleScope.launch {
-                DATABASE_.updateAlumno(Alumno(id, numero_de_control, contrasena, nombres,
-                apellido_paterno, apellido_materno, carrera))
 
                 val estado_alumno = DATABASE_status.getStatusAlumno(id)
                 if (estado_alumno != null){
@@ -86,6 +70,7 @@ class ProjectDetail : Fragment() {
                 }
                 else{
                     DATABASE_status.addProyecto_estado(ProjectStatus(0,id, id_proyecto_seleccionado!!, false))
+                    (activity as MainActivity?)?.receiveProject(DATABASE_project.getById(id_proyecto_seleccionado!!))
                 }
             }
 
@@ -94,16 +79,6 @@ class ProjectDetail : Fragment() {
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ProjectDetail.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
         fun newInstance(alumno: Alumno, id_proyecto_seleccionado: Int) =
             ProjectDetail().apply {
                 arguments = Bundle().apply {

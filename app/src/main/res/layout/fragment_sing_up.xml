@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#086A87"
+    android:background="@drawable/polygonbackground"
     android:gravity="center_vertical"
     android:orientation="vertical"
     tools:context=".fragments.Login">
@@ -135,7 +135,7 @@
                 android:id="@+id/btnBackToLogin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/darkblue"
+                android:backgroundTint="@color/dark_blue"
                 android:height="60dp"
                 android:text="Iniciar Sesión" />
 

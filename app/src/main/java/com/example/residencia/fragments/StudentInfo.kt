@@ -7,10 +7,14 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.TextView
+import android.widget.Toolbar
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.lifecycleScope
+import com.example.residencia.MainActivity
 import com.example.residencia.R
 import com.example.residencia.alumno_proyecto_estado.ProjectStatus
 import com.example.residencia.alumnos.Alumno
@@ -38,8 +42,13 @@ class StudentInfo : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_student_info, container, false)
-        updateUI(view)
 
+        //Para habilitar el NavigationDrawer
+        (activity as MainActivity?)?.unLockNavitagationDrawer()
+
+        //Para actualizar el alumno si se ha modificado
+        (activity as MainActivity?)?.receiveData(alumno!!)
+        updateUI(view)
         return view
     }
 
@@ -50,7 +59,7 @@ class StudentInfo : Fragment() {
 
         lifecycleScope.launch {
 
-            //Mostrar en la informacion del estudiando el proyecto elegido
+            //Mostrar en la informacion del proyecto elegido
             val infoStatusProject = DATABASE_status.getById(alumno!!.id)
             val infoSelectedProject = view?.findViewById<TextView>(R.id.tv_id_project)
 
@@ -58,31 +67,9 @@ class StudentInfo : Fragment() {
 
             if (infoStatusProject == null) {
                 infoSelectedProject?.text = "Proyecto elegido: Sin elegir"
-                //Dehabilitar boton "ver estado" si no se ha elegido un proyecto
-                view?.findViewById<Button>(R.id.btn_estado)?.isEnabled = false
             } else {
                 selectedProject = DATABASE_proyectos.getById(infoStatusProject.id_proyecto)
                 infoSelectedProject?.text = "Proyecto elegido: " + selectedProject?.nombre
-            }
-
-            //Boton para ver el estado del proyecto
-            val btn_estado = view?.findViewById<Button>(R.id.btn_estado)
-            btn_estado?.setOnClickListener {
-
-                val mFragmentTransaction: FragmentTransaction = parentFragmentManager.beginTransaction()
-                mFragmentTransaction.replace(R.id.container, Status.newInstance(alumno!!, selectedProject))
-                mFragmentTransaction.addToBackStack(null)
-                mFragmentTransaction.commit()
-            }
-
-            //Boton para ver la lista de los proyectos disponibles
-            val btn_continuar = view?.findViewById<Button>(R.id.btn_continuar)
-            btn_continuar?.setOnClickListener {
-
-                val mFragmentTransaction: FragmentTransaction = parentFragmentManager.beginTransaction()
-                mFragmentTransaction.replace(R.id.container, ProjectList.newInstance(alumno!!))
-                mFragmentTransaction.addToBackStack(null)
-                mFragmentTransaction.commit()
             }
         }
     }
@@ -90,16 +77,12 @@ class StudentInfo : Fragment() {
     fun updateUI(view: View){
 
         val nombre = view.findViewById<TextView>(R.id.tv_Nombre)
-        val numeroDeControl = view.findViewById<TextView>(R.id.tv_NumeroDeControl)
-        val carrera = view.findViewById<TextView>(R.id.tv_Carrera)
         val creditosComplementarios = view.findViewById<CheckBox>(R.id.cb_CreditosComplementarios)
         val servicioSocial = view.findViewById<CheckBox>(R.id.cb_servicioSocial)
         val ochentaPorCiento = view.findViewById<CheckBox>(R.id.cb_ochentaPorCiento)
 
         nombre.text = getString(R.string.student_full_name,
             alumno?.nombres,alumno?.apellido_paterno,alumno?.apellido_materno)
-        numeroDeControl.text = alumno?.numero_de_control
-        carrera.text = alumno?.carrera
 
         creditosComplementarios.isChecked = true
         servicioSocial.isChecked = true
@@ -107,8 +90,10 @@ class StudentInfo : Fragment() {
 
         if (creditosComplementarios.isChecked && servicioSocial.isChecked && ochentaPorCiento.isChecked){
             view.findViewById<TextView>(R.id.tv_not_ok).isVisible = false
+            (activity as MainActivity?)?.approved(true)
         }else{
             view.findViewById<TextView>(R.id.tv_ok).isVisible = false
+            (activity as MainActivity?)?.approved(false)
         }
     }
 
